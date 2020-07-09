@@ -1,2 +1,4 @@
-# CodeRed ![CodeRed](/CodeRedSmall.png)
+# CodeRed 
+![CodeRed](/CodeRedSmall.png)
+
 Basis Reduction Algorithms for Codes (LLL and more)
