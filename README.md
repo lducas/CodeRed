@@ -55,19 +55,18 @@ To reach very large dimensions, the last experiment may be run using several cor
 ---
 ## Usage from Python
 
-#### Reduction Algorithms
-
 All reduction algorithms are available through the class `CodeRedLib` and are applied on the internally stored basis. All input/outputs are `numpy` arrays.  
   
-#####Example:  
+#### Example:  
 
 ``` python
 >>> from numpy import array, random
 >>> from middleware import CodeRedLib
->>> 
->>> G = random.randint(0,2, size=(5, 16), dtype="bool")  # Create a random Basis for a [5,16]-code
->>> red = CodeRedLib(G)                                  # Load it into a fresh CodeRedLib object  
->>> 
+>>>  
+>>> B = random.randint(0,2, size=(5, 16), dtype="bool")  # Create a random Basis for a [5,16]-code
+>>> red = CodeRedLib(B)                                  # Load it into a fresh CodeRedLib object  
+>>> # The above fails in the unlucky case of the code C(B) not of full rank or not of full length.  
+>>>  
 >>> def niceprint(B):
 ...     for v in B:
 ...         print("".join(["1" if x else "." for x in v]))
@@ -89,7 +88,7 @@ All reduction algorithms are available through the class `CodeRedLib` and are ap
 >>> print(red.l)        # Print current Profile
 [6 6 3 1 0]
 >>> 
->>> red.LLL() # Apply LLL
+>>> red.LLL()           # Apply LLL
 >>> 
 >>> niceprint(red.B)    # Print current basis
 1..1.1.1...1.1..
@@ -107,7 +106,7 @@ All reduction algorithms are available through the class `CodeRedLib` and are ap
 [6 4 3 2 1]
 ```
 
-#####API:  
+#### API:  
   
 Functions names match with the one of the paper.  
 
@@ -123,7 +122,7 @@ KillTwos()
 ```
 
 Functions for finding short words in the code C (or in the coset t+C):
-```
+``` python
 SizeRed(t)
 LB(w2, goal_w=None, t=None, stats=False)
 LBB(k1, w2, goal_w=None, t=None, stats=False)
@@ -131,8 +130,8 @@ LBB(k1, w2, goal_w=None, t=None, stats=False)
 Parameters:  
 - The default value t=None is interpreted as 0 (*i.e.* LB/LBB searches for a short codeword rather than a close codeword).   
 - Parameters `k1` and `w2` are integers, whose role is described in the paper.   
-- Leave default value `goal_w=None` to get the shortest visited codeword as output. Set `goal_w` to an integer to return as soon as a coderword shortest codeword is found (and returns None if goal not met).  
-- Set `Stats=True` to instead get counts on visited codeword of each length as the output.
+- Leave default value `goal_w=None` to get the shortest visited codeword as output. Set `goal_w` to an integer to return as soon as a coderword of at most that length is found (and returns `None` if goal not met).  
+- Set `Stats=True` to instead get as return value the counts on visited codeword of each length.
 
 #### Fundamental Domain and Probabilities  
   
