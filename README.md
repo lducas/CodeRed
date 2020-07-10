@@ -3,7 +3,7 @@ Basis Reduction Algorithms for Codes (LLL and more)
 
 ---
 
-This small library is research Artefact, paired with the article  
+This small library is a research Artefact, paired with the article  
   
 **An Algorithmic Reduction Theory for Binary Codes: LLL and more**  
 *Thomas Debris--Alazard, Léo Ducas and Wessel P.J. van Woerden*
