@@ -57,7 +57,7 @@ To reach very large dimensions, the last experiment may be run using several cor
 
 All reduction algorithms are available through the class `CodeRedLib` and are applied on the internally stored basis. All input/outputs are `numpy` arrays.  
   
-#### Example:  
+#### Example (Code and execution of [example.py](example.py)):  
 
 ``` python
 >>> from numpy import array, random
