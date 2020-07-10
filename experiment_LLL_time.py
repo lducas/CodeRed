@@ -1,4 +1,4 @@
-from numpy import zeros, matrix, array, random
+from numpy import zeros, array, random
 from middleware import CodeRedLib
 from time import time
 
