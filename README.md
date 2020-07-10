@@ -128,7 +128,7 @@ LB(w2, goal_w=None, t=None, stats=False)
 LBB(k1, w2, goal_w=None, t=None, stats=False)
 ```
 Parameters:  
-- The default value t=None is interpreted as 0 (*i.e.* LB/LBB searches for a short codeword rather than a close codeword).   
+- The default value for the target `t=None` is interpreted as the zero vector of length n (*i.e.* LB/LBB searches for a short codeword rather than a close codeword).   
 - Parameters `k1` and `w2` are integers, whose role is described in the paper.   
 - Leave default value `goal_w=None` to get the shortest visited codeword as output. Set `goal_w` to an integer to return as soon as a coderword of at most that length is found (and returns `None` if goal not met).  
 - Set `Stats=True` to instead get as return value the counts on visited codeword of each length.
