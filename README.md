@@ -8,7 +8,7 @@ This small library is a research Artefact, paired with the article
 **An Algorithmic Reduction Theory for Binary Codes: LLL and more**  
 *Thomas Debris--Alazard, Léo Ducas and Wessel P.J. van Woerden*
 
-The article is available on this [repository](paper.pdf) and soon on the [IACR eprint](https://eprint.iacr.org/).
+The article is available on this [repository](paper.pdf) and on the [IACR eprint](https://eprint.iacr.org/2020/869).
 
 It provides a core in C++ for reduction algorithms for codes (LLL, Size-Reduction, Lee-Brickell, Lee-Brickell-Babai), and a Python interface.
 
@@ -21,9 +21,9 @@ MIT License see [LICENSE.txt](LICENSE.txt).
 @misc{DDW20,
     author = {Thomas {Debris-Alazard} and Léo Ducas and Wessel P.J. van Woerden},
     title = {An Algorithmic Reduction Theory for Binary Codes: LLL and more},
-    howpublished = {Cryptology ePrint Archive, Report 2020/XXX},
+    howpublished = {Cryptology ePrint Archive, Report 2020/869},
     year = {2020},
-    note = {\url{https://eprint.iacr.org/2020/XXX}},
+    note = {\url{https://eprint.iacr.org/2020/869}},
 }
 ```
 
