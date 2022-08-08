@@ -38,7 +38,7 @@ class CodeRedLib(object):
         if seed is None:
             seed = random.randint(0,2**63)
 
-        nmax = 256 * int(ceil(n/256.))
+        nmax = 64 * int(ceil(n/64.))
         self.lib = ctypes.cdll.LoadLibrary("./bin/coderedlib-%d.so"%nmax)
         
         self.lib._setup(k, n, c_char_ptr(B), ctypes.c_long(seed))
@@ -132,3 +132,11 @@ class CodeRedLib(object):
             return _stats
         if success or goal_w is None:
             return tt
+
+
+
+    def Sieve(self, goal):
+        return self.lib._Sieve(int(floor(goal)))
+
+    def Prange(self, goal):
+        return self.lib._Prange(int(floor(goal)))

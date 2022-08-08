@@ -411,7 +411,127 @@ bool LBB(binvec& tt, size_t k1, size_t w2, int goal_w, uint64_t* stats)
     return (goal_w==0);
 }
 
+struct entry {
+    int birthdate;
+    int h;
+    binvec v;
+};
 
+bool compare_entry(entry const& x, entry const& y)
+{
+    return x.h < y.h;
+}
+
+
+void Sieve(int goal)
+{
+    vector<entry> db;
+    int best = n;
+    int coll = 0;
+    for (int date = 1;; ++date)
+    {
+        // printf("date: %d\t best: %d / %d \n", date, best, goal);
+        std::sort(db.begin(), db.end(), &compare_entry);
+
+        if (! (date % 5))
+            {
+            double sum = 0;
+            double fresh = 0;
+            for (int i = 0; i < db.size(); ++i)
+            {
+                sum += db[i].h;
+                fresh += db[i].birthdate == date - 1;
+            }
+           
+            // printf("n: %d #db: %d\t, #coll: %d\t date: %d\t best: %d / %.4f  / %d \t fresh: %.4f \n",
+            //       n,  db.size() - coll, coll, date, best, sum/db.size(), goal, fresh/db.size());
+            // printf("%d %d %d\n", db[0].h, db[db.size()/2].h, db[db.size()-1].h);
+        }
+
+
+        for (int rep = 0; rep < sqrt(date) + 1; ++rep)
+        {
+            Randomize(false);
+            Systematize();
+            for (int i = 0; i < k; ++i)
+            {
+                entry e;
+                e.v = B[i];
+                e.h = e.v.count();
+                // cout << date << " insert " << e.h << " / " << n << endl;
+                // if (e.h > k/2 + 1) continue;
+                e.birthdate = date - 1;
+                db.push_back(e);
+            }
+        }
+
+        // return;
+        for (int i = 0; i < db.size(); ++i)
+        {
+            entry* x = &db[i];
+            if (x->birthdate < 0) continue;
+            if (x->birthdate < date - 1) continue;
+
+            for (int j = 0; j < i; ++j)
+            {
+                entry* y = &db[j];
+                if (y->birthdate < 0) continue;
+                binvec z = x->v ^ y->v;
+                int h = z.count();
+                // cout << goal << "\t" << y->h << "\t" << x->h << "\t" << h << "\n";
+                if (h == 0) // collision
+                {
+                    db[j].birthdate = - 1;
+                    coll ++;
+                    continue;
+                }
+                if (h < best) best = h;
+
+                if (h <= goal)
+                {
+                    // printf("#db: %d\t, #coll: %d\t date: %d\t hw: %d (%d + %d) \n",db.size() - coll, coll, date, h, x->h, y->h);
+                    return;
+                }
+
+                if (h < y->h)
+                {
+                    db[j].v = z;
+                    db[j].h = h;
+                    db[j].birthdate = date;
+                    // cout << "y \n";
+                    continue;
+                }
+
+                if (h < x->h)
+                {
+                    db[i].v = z;
+                    db[i].h = h;
+                    db[i].birthdate = date;
+                    // cout << "x \n";
+                    break;
+                }
+            }
+        }
+    // Repeat loop
+    }
+}
+
+
+void Prange(int goal)
+{
+    vector<entry> db;
+    int best = n;
+    int coll = 0;
+    for (int date = 1;; ++date)
+    {
+        Randomize(false);
+        Systematize();
+        for (int i = 0; i < k; ++i)
+        {
+            if (B[i].count() <= goal) return;
+        }
+    }
+}
 
 
 extern "C" 
@@ -532,4 +652,13 @@ extern "C"
     {
         skip = skip_;
     }
+    void _Sieve(int goal)
+    {
+        Sieve(goal);
+    }
+    void _Prange(int goal)
+    {
+        Sieve(goal);
+    }
+
 }
