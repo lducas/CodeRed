@@ -12,6 +12,10 @@ The article is available on this [repository](paper.pdf) and on the [IACR eprint
 
 It provides a core in C++ for reduction algorithms for codes (LLL, Size-Reduction, Lee-Brickell, Lee-Brickell-Babai), and a Python interface.
 
+#### Acknowledgments
+
+This work was supported by the grant EPSRC EP/S02087X/1, by the European Union Horizon 2020 Research and Innovation Program Grant 780701 (PROMETHEUS) and by the ERC Advanced Grant 740972 (ALGSTRONGCRYPTO).
+
 #### License:   
 MIT License see [LICENSE.txt](LICENSE.txt).
 
