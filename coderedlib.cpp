@@ -7,6 +7,7 @@
 #include <bitset>
 #include <assert.h>
 #include <time.h>
+#include <array>
 #include <unistd.h>
 
 using namespace std;
