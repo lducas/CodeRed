@@ -14,6 +14,10 @@ using namespace std;
 
 #define max_n maxn   // Hardcode maximal code length as a compilation parameter maxn
 
+#if max_n < 256
+    #error "Compilation parameter 'maxn' must be >= 256"
+#endif
+
 typedef bitset<max_n> binvec;   
 typedef vector<binvec> binmat;
 
@@ -261,10 +265,11 @@ vector<int> start(size_t beg, size_t end, size_t w)
 }
 
 // An helper function to enumerate targets of weight w as follows.
-// example enumerating 3 choose 5
+// example enumerating 5 choose 3
 // 0 1 2 3 4 5
 // 01 02 12 03 13 23 04 14 24 34
 // 012 013 023 123 014 024 124 034 134 234
+// if w is 0, then 5 choose 0 will choose none and leave t invariant.
 inline bool next(binvec& t, vector<int>& e)
 {
     for (size_t i = 1; i < e.size()-1; ++i)
@@ -272,7 +277,10 @@ inline bool next(binvec& t, vector<int>& e)
         if (e[i] >= 0)
         {
             // clear codeword from target
-            t ^= B[e[i]];
+            if (e[i] < B.size())
+                t ^= B[e[i]];
+            else
+                break;
             ++e[i];
             if (i > 1) e[i] += skip;    // Only search a fraction of the space for other indices
         }
@@ -284,7 +292,14 @@ inline bool next(binvec& t, vector<int>& e)
         if ((e[i] < e[i+1]) | ((e[i+1] < 0) & (e[i] < e[e.size()-1])) )
         {
             // add the next codeword
-            t ^= B[e[i]];
+            if (e[i] < B.size())
+            {
+                t ^= B[e[i]];
+                return true;
+            }
+            else
+                break;
+                
             return true;            
         }
         else
@@ -292,7 +307,10 @@ inline bool next(binvec& t, vector<int>& e)
             // reset the coordinate 
             e[i] = e[i-1]+1;
             // add the codeword
-            t ^= B[e[i]];
+            if (e[i] < B.size())
+                t ^= B[e[i]];
+            else
+                break;
             // move on to the next coordinate
         }
     }
@@ -319,7 +337,7 @@ bool LB(binvec& tt, size_t w2, int goal_w, uint64_t* stats)
 
     // If no goal set, just return the best visited solution
     int best_w = goal_w > 0 ? goal_w + 1 : tt.count();
-    if (best_w==0) best_w=n;
+    if (best_w==0) best_w=n + 1;
 
     while(next(t, enumerator))
     {
@@ -342,7 +360,7 @@ inline void SizeRed(binvec& t, size_t beg, size_t end)
     {
         // This is the most critical peace: helping the compiler
         // For some reason using (t & P[i]).count() gets slow for n > 1024.
-        int64_t ham = (t, E[i]).count();
+        int64_t ham = AND_popcnt(t, E[i]);
         if (2*ham > l[i]) t ^= B[i];
     }
 }
@@ -381,7 +399,7 @@ bool LBB(binvec& tt, size_t k1, size_t w2, int goal_w, uint64_t* stats)
 
     // If no goal set, just return the best visited solution
     int best_w = goal_w > 0 ? goal_w + 1 : tt.count();
-    if (best_w==0) best_w=n;
+    if (best_w==0) best_w=n + 1;
 
     bool notover = true;
     while(notover)
